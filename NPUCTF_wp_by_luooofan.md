@@ -36,7 +36,7 @@
 
 - ida打开分析
 
-  ![image-20200422234230103](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422234230103.png)
+  ![image-20200422234230103](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\image-20200422234230103.png)
 
 - 疯狂明示的shellcode：（关键部分用它就可`shellcode=asm(shellcraft.sh())`）
 
@@ -48,7 +48,7 @@
 
   - 返回地址这里要控制程序返回到rsp，以便执行下一条指令，即这里填充`p64(0x40064b)`
 
-    ![image-20200422235451627](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422235451627.png)
+    ![image-20200422235451627](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\image-20200422235451627.png)
 
   - 控制程序rip到这里执行：`sub rsp,0x90; jmp rsp;`
     嗯？
@@ -90,13 +90,13 @@
 
 - 首先`checksec`
 
-  ![image-20200422204504696](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422204504696.png)
+  ![image-20200422204504696](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\image-20200422204504696.png)
 
   开启了`NX堆栈不可执行`，`PIE地址随机化`，还有`Full RELRO`，无法修改got表，没有开`canary`保护
 
 - ida打开分析
 
-  ![image-20200422210644228](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422210644228.png)
+  ![image-20200422210644228](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\image-20200422210644228.png)
 
   格式化字符串溢出没跑了，双击`buf`可以看到`buf`在**bss段**，也就是说，循环读入0x64字节数据到`bss`段中，然后`printf`输出；如果输入等于`"66666666"`，跳出循环。
 
@@ -113,7 +113,7 @@
 
   - 输入`%p-%p-%p-%p-%p-%p-%p-%p-%p-%p-%p-%p`
   
-- ![image-20200422214432013](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422214432013.png)
+- ![image-20200422214432013](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\image-20200422214432013.png)
   
   - 可以看到，前几个是传参寄存器的值
     
@@ -149,7 +149,7 @@
   
 - 但是我们不仅要读出来还要写进去啊，来看栈结构：
   
-  ![stack](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\TIM图片20200422220839.png)
+  ![stack](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/NPUCTFWP\TIM图片20200422220839.png)
   
   也就是说：**可以通过`...%9$n`来改写 0x7fffffffded8(第一个框)地址 所指向的 0x7fffffffdfa8(第二个框)中所存的数据**
   
