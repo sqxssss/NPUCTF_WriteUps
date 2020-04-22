@@ -59,7 +59,7 @@
     因为这样构造的shellcode本地可以跑通，但是服务器上不行，服务器上会把程序控制回havafun()函数再次执行。查看ida后发现或许是有个偏差？偏差范围比较小，就直接暴力循环试一下，试了几次成了，于是有了下面的饱含迷茫与运气的exp
 
 - ```python
-from pwn import *
+  from pwn import *
   
   jmp_rsp_base=0x40064b+0x64b-0x537-0x40 #为啥要减0x40,不待算了随便写的
   DEBUG=0
@@ -85,7 +85,6 @@ from pwn import *
   ```
   
   
-
 
 
 ### 3.format2
@@ -158,7 +157,7 @@ from pwn import *
   
     - 改`dec8`（设为addr1）：pop_rdi_ret的地址
     - 改`ded0`（设为addr2）：/bin/sh字符串的地址
-  - 改`ded8`（设为addr3）：system函数的地址
+    - 改`ded8`（设为addr3）：system函数的地址
   
 - 我们来缕一缕怎么实现这几个写操作：
   
