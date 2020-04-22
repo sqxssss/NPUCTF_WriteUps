@@ -32,7 +32,7 @@
 
 - 首先`checksec`
 
-  ![image-20200422233651423](D:\文档\音视频图片\照片图片\typoraphoto\NPUCTFWP\image-20200422233651423.png)
+  ![image-20200422233651423](https://github.com/Luoofan/Images/blob/master/NPUCTFWP/image-20200422233651423.png)
 
 - ida打开分析
 
@@ -117,10 +117,11 @@
   
   - 可以看到，前几个是传参寄存器的值
     
+  
   第六个(`%6$p`)指向main函数之后的`__libc_csu_init()`，可以溢出该数据，然后经过计算得到buf、pop_rdi_ret的实际地址
   
     第七个(`%7$p`)指向main函数返回地址**__libc_start_main()的231偏移处**，溢出该值，可以计算得到`__libc_start_main()`的起始地址，进而得到`libc基址和system函数地址`
-    
+  
     ```python
     # get pop_rdi_ret and ret(这里的ret之后再说)
     sh.sendline('%6$p')
@@ -182,12 +183,13 @@
     
     - 通过 **%int(addr1+32)c%9$n** 使`dfa8`指向 **addr1+32** 
       
+    
     通过 **%int(addr3)c%35$n** 将addr1+32中存储的数据改为 **addr1**
     
     造了一个新的跳板addr1+32，也就是说我们只要借助的跳板不是%9而是%11
     
     我们把它设为addr5，同时把addr1+24设为addr4
-    
+  
   - 通过 **%int(addr3)c%11$n** 使`dfa8`指向 **addr3**
     
     通过 **%int(ret)c%35$n** 将addr3中存储的数据改为 **ret**
